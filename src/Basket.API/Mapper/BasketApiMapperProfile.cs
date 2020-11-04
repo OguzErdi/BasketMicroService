@@ -12,7 +12,7 @@ namespace Basket.API.Mapper
     {
         public BasketApiMapperProfile()
         {
-            CreateMap<BasketItemModel, BasketItemViewModel>();
+            CreateMap<BasketItemViewModel, BasketItemModel>();
         }
     }
 }

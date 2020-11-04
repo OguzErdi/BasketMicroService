@@ -32,7 +32,6 @@ namespace Basket.API.UnitTests.Datas
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return new object[] { new BasketItemViewModel() { Color = null, Price = 1.1M, ProductId = 123, ProductName = "T-Shirt", Quantity = 1, UserName = "Erdi" } };
             yield return new object[] { new BasketItemViewModel() { Color = "Red", Price = 0, ProductId = 123, ProductName = "T-Shirt", Quantity = 1, UserName = "Erdi" } };
             yield return new object[] { new BasketItemViewModel() { Color = "Red", Price = 1.1M, ProductId = 0, ProductName = "T-Shirt", Quantity = 1, UserName = "Erdi" } };
             yield return new object[] { new BasketItemViewModel() { Color = "Red", Price = 1.1M, ProductId = 123, ProductName = null, Quantity = 1, UserName = "Erdi" } };

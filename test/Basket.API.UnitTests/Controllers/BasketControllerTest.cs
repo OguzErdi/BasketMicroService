@@ -1,4 +1,5 @@
-﻿using Basket.API.Controllers;
+﻿using AutoMapper;
+using Basket.API.Controllers;
 using Basket.API.UnitTests.Datas;
 using Basket.API.ViewModels;
 using Basket.Application.Interfaces;
@@ -15,10 +16,12 @@ namespace Basket.API.UnitTests.Controllers
     public class BasketControllerTest
     {
         private readonly Mock<IBasketService> _mockBasketService;
+        private readonly Mock<IMapper> _mockMapper;
 
         public BasketControllerTest()
         {
             _mockBasketService = new Mock<IBasketService>();
+            _mockMapper = new Mock<IMapper>();
         }
 
         [Theory]
@@ -27,7 +30,7 @@ namespace Basket.API.UnitTests.Controllers
         {
             //arrange
             _mockBasketService.Setup(x => x.AddItemToBasket(It.IsAny<BasketItemModel>())).ReturnsAsync(true);
-            var basketController = new BasketController(_mockBasketService.Object);
+            var basketController = new BasketController(_mockBasketService.Object, _mockMapper.Object);
 
             //act
             var result = await basketController.PostBasketCartItem(basketItemModel);
@@ -54,7 +57,7 @@ namespace Basket.API.UnitTests.Controllers
                 }
             );
 
-            var basketService = new BasketController(_mockBasketService.Object);
+            var basketService = new BasketController(_mockBasketService.Object, _mockMapper.Object);
 
             //act
             var result = await basketService.PostBasketCartItem(basketItemModel);
@@ -69,7 +72,7 @@ namespace Basket.API.UnitTests.Controllers
         public async Task PostBasketCartItem_InvalidBasket_InvalidBasketItemException(BasketItemViewModel basketItemModel)
         {
             //arrange
-            var basketController = new BasketController(_mockBasketService.Object);
+            var basketController = new BasketController(_mockBasketService.Object, _mockMapper.Object);
 
             //act & assert
             await Assert.ThrowsAsync<ArgumentException>(() => basketController.PostBasketCartItem(basketItemModel));

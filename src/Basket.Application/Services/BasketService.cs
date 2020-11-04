@@ -1,4 +1,5 @@
 ﻿using Basket.Application.Interfaces;
+using Basket.Application.Mapper;
 using Basket.Application.Models;
 using Basket.Core.Entites;
 using Basket.Core.Providers;
@@ -12,16 +13,30 @@ namespace Basket.Application.Services
 {
     public class BasketService: IBasketService
     {
-        private IBasketRepository _repository;
+        private readonly IBasketRepository _repository;
+        private readonly IStockProvider _stockProvider;
 
         public BasketService(IBasketRepository repository, IStockProvider stockProvider)
         {
             _repository = repository;
+            _stockProvider = stockProvider;
         }
 
-        public Task<bool> AddItemToBasket(BasketItemModel basketCartItemModel)
+        public async Task<bool> AddItemToBasket(BasketItemModel basketCartItemModel)
         {
-            throw new NotImplementedException();
+            var isInStock = await _stockProvider.IsInStock(basketCartItemModel.ProductId, basketCartItemModel.Color, basketCartItemModel.Quantity);
+            if (!isInStock)
+            {
+                return false;
+            }
+
+            var mapped = ObjectMapper.Mapper.Map<BasketItem>(basketCartItemModel);
+            if (mapped == null)
+            {
+                throw new ApplicationException($"Entity could not be mapped.");
+            }
+
+            return await _repository.AddItemToBasket(mapped);
         }
     }
 }

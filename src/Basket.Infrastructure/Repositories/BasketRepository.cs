@@ -1,5 +1,7 @@
-﻿using Basket.Core.Entites;
+﻿using Basket.Core.Data;
+using Basket.Core.Entites;
 using Basket.Core.Repositories;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,9 +11,24 @@ namespace Basket.Infrastructure.Repositories
 {
     public class BasketRepository : IBasketRepository
     {
-        public Task<bool> AddItemToBasket(BasketItem basketCartItem)
+        private readonly IBasketDbContext _context;
+
+        public BasketRepository(IBasketDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+        public async Task<bool> AddItemToBasket(BasketItem basketItem)
+        {
+            string jsonBasketItem = JsonConvert.SerializeObject(basketItem);
+            var isAdded = await _context.Redis.StringSetAsync(basketItem.UserName, jsonBasketItem);
+
+            if (!isAdded)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
