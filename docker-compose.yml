@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+    basketmicroservice_basketdb:
+        image: redis #Redis offical image name is redis
+
+    basketmicroservice_basket.api:
+        image: ${DOCKER_REGISTRY-}basketmicroservice_basketapi
+        build:
+            context: .
+            dockerfile: src/Basket.API/Dockerfile
