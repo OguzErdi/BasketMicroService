@@ -9,5 +9,6 @@ namespace Basket.Core.Repositories
     public interface IBasketRepository
     {
         Task<bool> AddItemToBasket(BasketItem basketCartItem);
+        Task<List<BasketItem>> GetBasketItemListAsync(string userName);
     }
 }

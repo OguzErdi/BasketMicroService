@@ -20,8 +20,12 @@ namespace Basket.Infrastructure.Repositories
 
         public async Task<bool> AddItemToBasket(BasketItem basketItem)
         {
-            string jsonBasketItem = JsonConvert.SerializeObject(basketItem);
-            var isAdded = await _context.Redis.StringSetAsync(basketItem.UserName, jsonBasketItem);
+            var basketItemList = await GetBasketItemListAsync(basketItem.UserName);
+            basketItemList.Add(basketItem);
+
+            string jsonBasketIteList = JsonConvert.SerializeObject(basketItemList);
+
+            var isAdded = await _context.Redis.StringSetAsync(basketItem.UserName, jsonBasketIteList);
 
             if (!isAdded)
             {
@@ -29,6 +33,18 @@ namespace Basket.Infrastructure.Repositories
             }
 
             return true;
+        }
+
+        public async Task<List<BasketItem>> GetBasketItemListAsync(string userName)
+        {
+            var basketItemList =  await _context.Redis.StringGetAsync(userName);
+
+            if (basketItemList.IsNullOrEmpty)
+            {
+                return null;
+            }
+
+            return JsonConvert.DeserializeObject<List<BasketItem>>(basketItemList);
         }
     }
 }
