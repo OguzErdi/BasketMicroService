@@ -24,6 +24,8 @@ using Basket.Core.Entites;
 using Basket.Core.Providers;
 using Basket.Infrastructure.Providers;
 using static Basket.Application.Models.BasketItemModel;
+using FluentValidation;
+using Basket.Application.Models;
 
 namespace Basket.API
 {
@@ -56,6 +58,7 @@ namespace Basket.API
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IStockProvider, FakeStockProvider>();
+            services.AddTransient<IValidator<BasketItemModel>, BasketItemValidator>();
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -71,8 +74,7 @@ namespace Basket.API
             #endregion
 
 
-            services.AddControllers()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<BasketItemValidator>());
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

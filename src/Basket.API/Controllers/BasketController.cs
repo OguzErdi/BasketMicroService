@@ -27,9 +27,9 @@ namespace Basket.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(BasketItemViewModel), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<bool>> PostBasketCartItem([FromBody]BasketItemViewModel basketCartItemViewModel)
+        public async Task<ActionResult<bool>> PostBasketCartItem([FromBody]BasketItemViewModel basketItemViewModel)
         {
-            var mapped = _mapper.Map<BasketItemModel>(basketCartItemViewModel);
+            var mapped = _mapper.Map<BasketItemModel>(basketItemViewModel);
             if (mapped == null)
             {
                 throw new Exception($"Entity could not be mapped.");

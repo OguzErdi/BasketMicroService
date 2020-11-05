@@ -4,6 +4,7 @@ using Basket.Application.Models;
 using Basket.Core.Entites;
 using Basket.Core.Providers;
 using Basket.Core.Repositories;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,25 +17,26 @@ namespace Basket.Application.Services
     {
         private readonly IBasketRepository _repository;
         private readonly IStockProvider _stockProvider;
+        private readonly IValidator<BasketItemModel> _validator;
 
-        public BasketService(IBasketRepository repository, IStockProvider stockProvider)
+        public BasketService(IBasketRepository repository, IStockProvider stockProvider, IValidator<BasketItemModel> validator)
         {
             _repository = repository;
             _stockProvider = stockProvider;
+            _validator = validator;
         }
 
-        public async Task<bool> AddItemToBasket(BasketItemModel basketCartItemModel)
+        public async Task<bool> AddItemToBasket(BasketItemModel basketItemModel)
         {
-            var validator = new BasketItemValidator();
-            validator.Validate(basketCartItemModel);
+            _validator.Validate(basketItemModel);
 
-            var mapped = ObjectMapper.Mapper.Map<BasketItem>(basketCartItemModel);
+            var mapped = ObjectMapper.Mapper.Map<BasketItem>(basketItemModel);
             if (mapped == null)
             {
                 throw new ApplicationException($"Entity could not be mapped.");
             }
 
-            var isInStock = await _stockProvider.IsInStock(basketCartItemModel.ProductId, basketCartItemModel.Color, basketCartItemModel.Quantity);
+            var isInStock = await _stockProvider.IsInStock(basketItemModel.ProductId, basketItemModel.Color, basketItemModel.Quantity);
             if (!isInStock)
             {
                 return false;

@@ -5,12 +5,14 @@ using Basket.Application.UnitTests.TestData;
 using Basket.Core.Entites;
 using Basket.Core.Providers;
 using Basket.Core.Repositories;
+using FluentValidation;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using static Basket.Application.Models.BasketItemModel;
 
 namespace Basket.Application.UnitTests.Services
 {
@@ -18,11 +20,14 @@ namespace Basket.Application.UnitTests.Services
     {
         private readonly Mock<IBasketRepository> _mockBasketRepository;
         private readonly Mock<IStockProvider> _mockStockProvider;
+        private readonly IValidator<BasketItemModel> _validator;
 
         public BasketServiceTest()
         {
             _mockBasketRepository = new Mock<IBasketRepository>();
             _mockStockProvider = new Mock<IStockProvider>();
+            //to test real validator
+            _validator = new BasketItemValidator();
         }
 
         [Theory]
@@ -32,7 +37,7 @@ namespace Basket.Application.UnitTests.Services
             //arrange
             _mockBasketRepository.Setup(x => x.AddItemToBasket(It.IsAny<BasketItem>())).ReturnsAsync(true);
             _mockStockProvider.Setup(x => x.IsInStock(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>())).ReturnsAsync(true);
-            var basketService = new BasketService(_mockBasketRepository.Object, _mockStockProvider.Object);
+            var basketService = new BasketService(_mockBasketRepository.Object, _mockStockProvider.Object, _validator);
 
             //act
             var result = await basketService.AddItemToBasket(basketItemModel);
@@ -60,7 +65,7 @@ namespace Basket.Application.UnitTests.Services
                 }
             );
 
-            var basketService = new BasketService(_mockBasketRepository.Object, _mockStockProvider.Object);
+            var basketService = new BasketService(_mockBasketRepository.Object, _mockStockProvider.Object, _validator);
 
             //act
             var result = await basketService.AddItemToBasket(basketItemModel);
@@ -77,7 +82,7 @@ namespace Basket.Application.UnitTests.Services
         {
             //arrange
             _mockStockProvider.Setup(x => x.IsInStock(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>())).ReturnsAsync(true);
-            var basketService = new BasketService(_mockBasketRepository.Object, _mockStockProvider.Object);
+            var basketService = new BasketService(_mockBasketRepository.Object, _mockStockProvider.Object, _validator);
 
             //act & assert
             await Assert.ThrowsAsync<InvalidBasketItemModelException>(() => basketService.AddItemToBasket(basketItemModel));

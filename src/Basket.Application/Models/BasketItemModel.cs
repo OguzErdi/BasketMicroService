@@ -15,15 +15,16 @@ namespace Basket.Application.Models
         public int ProductId { get; set; }
         public string ProductName { get; set; }
 
+
         public class BasketItemValidator : AbstractValidator<BasketItemModel>
         {
             public BasketItemValidator()
             {
-                RuleFor(x => x.UserName).NotEmpty().OnAnyFailure(request => throw new InvalidBasketItemModelException($"{nameof(request.UserName)} paramater is invalid"));
-                RuleFor(x => x.Quantity).GreaterThan(0).OnAnyFailure(request => throw new InvalidBasketItemModelException($"{nameof(request.Quantity)} paramater is invalid"));
-                RuleFor(x => x.Price).GreaterThan(0).OnAnyFailure(request => throw new InvalidBasketItemModelException($"{nameof(request.Price)} paramater is invalid"));
-                RuleFor(x => x.ProductId).GreaterThan(0).OnAnyFailure(request => throw new InvalidBasketItemModelException($"{nameof(request.ProductId)} paramater is invalid"));
-                RuleFor(x => x.ProductName).NotEmpty().OnAnyFailure(request => throw new InvalidBasketItemModelException($"{nameof(request.ProductName)} paramater is invalid"));
+                RuleFor(x => x.UserName).NotEmpty().OnAnyFailure(request => throw new InvalidBasketItemModelException($"{nameof(request.UserName)} paramater must be not empty."));
+                RuleFor(x => x.Quantity).GreaterThan(0).OnAnyFailure(request => throw new InvalidBasketItemModelException($"{nameof(request.Quantity)} paramater must be greater than zero."));
+                RuleFor(x => x.Price).GreaterThan(0).OnAnyFailure(request => throw new InvalidBasketItemModelException($"{nameof(request.Price)} paramater must be greater than zero."));
+                RuleFor(x => x.ProductId).GreaterThan(0).OnAnyFailure(request => throw new InvalidBasketItemModelException($"{nameof(request.ProductId)} paramater must be greater than zero."));
+                RuleFor(x => x.ProductName).NotEmpty().OnAnyFailure(request => throw new InvalidBasketItemModelException($"{nameof(request.ProductName)} paramater must be not empty."));
             }
         }
     }
