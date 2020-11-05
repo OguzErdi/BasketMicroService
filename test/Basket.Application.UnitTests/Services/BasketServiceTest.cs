@@ -2,6 +2,7 @@
 using Basket.Application.Services;
 using Basket.Application.UnitTests.TestData;
 using Basket.Core.Entites;
+using Basket.Core.Exceptions;
 using Basket.Core.Providers;
 using Basket.Core.Repositories;
 using Moq;
@@ -75,10 +76,11 @@ namespace Basket.Application.UnitTests.Services
         public async Task AddItemToBasket_InvalidBasket_InvalidBasketItemException(BasketItemModel basketItemModel)
         {
             //arrange
+            _mockStockProvider.Setup(x => x.IsInStock(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<int>())).ReturnsAsync(true);
             var basketService = new BasketService(_mockBasketRepository.Object, _mockStockProvider.Object);
 
             //act & assert
-            await Assert.ThrowsAsync<ArgumentException>(() => basketService.AddItemToBasket(basketItemModel));
+            await Assert.ThrowsAsync<InvalidBasketItemException>(() => basketService.AddItemToBasket(basketItemModel));
         }
     }
 }

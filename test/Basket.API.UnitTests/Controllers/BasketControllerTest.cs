@@ -4,6 +4,7 @@ using Basket.API.UnitTests.Datas;
 using Basket.API.ViewModels;
 using Basket.Application.Interfaces;
 using Basket.Application.Models;
+using Basket.Core.Exceptions;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,7 @@ namespace Basket.API.UnitTests.Controllers
             var basketController = new BasketController(_mockBasketService.Object, _mockMapper.Object);
 
             //act & assert
-            await Assert.ThrowsAsync<ArgumentException>(() => basketController.PostBasketCartItem(basketItemModel));
+            await Assert.ThrowsAsync<InvalidBasketItemException>(() => basketController.PostBasketCartItem(basketItemModel));
         }
     }
 }

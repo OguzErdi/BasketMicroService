@@ -35,7 +35,8 @@ namespace Basket.Application.UnitTests.TestData
             yield return new object[] { new BasketItemModel() { Color = "Red", Price = 0, ProductId = 123, ProductName = "T-Shirt", Quantity = 1, UserName = "Erdi" } };
             yield return new object[] { new BasketItemModel() { Color = "Red", Price = 1.1M, ProductId = 0, ProductName = "T-Shirt", Quantity = 1, UserName = "Erdi" } };
             yield return new object[] { new BasketItemModel() { Color = "Red", Price = 1.1M, ProductId = 123, ProductName = null, Quantity = 1, UserName = "Erdi" } };
-            yield return new object[] { new BasketItemModel() { Color = "Red", Price = 1.1M, ProductId = 123, ProductName = "T-Shirt", Quantity = 0, UserName = null } };
+            yield return new object[] { new BasketItemModel() { Color = "Red", Price = 1.1M, ProductId = 123, ProductName = "T-Shirt", Quantity = 1, UserName = null } };
+            yield return new object[] { new BasketItemModel() { Color = "Red", Price = 1.1M, ProductId = 123, ProductName = "T-Shirt", Quantity = 0, UserName = "Erdi" } };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
