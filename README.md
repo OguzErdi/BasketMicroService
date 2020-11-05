@@ -6,7 +6,7 @@ A simple microservice for Add Item To Basket operation.
 ```
 docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 ```
-**After that, you can try to make api call on swagger page**
+**After that, you can try api call on swagger page**
 [http://localhost:9000/swagger/index.html](http://localhost:9000/swagger/index.html).
 
 
