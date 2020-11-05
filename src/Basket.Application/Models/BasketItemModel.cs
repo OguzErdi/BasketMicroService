@@ -16,9 +16,9 @@ namespace Basket.Application.Models
         public string ProductName { get; set; }
 
 
-        public class BasketItemValidator : AbstractValidator<BasketItemModel>
+        public class BasketItemModelValidator : AbstractValidator<BasketItemModel>
         {
-            public BasketItemValidator()
+            public BasketItemModelValidator()
             {
                 RuleFor(x => x.UserName).NotEmpty().OnAnyFailure(request => throw new InvalidBasketItemModelException($"{nameof(request.UserName)} paramater must be not empty."));
                 RuleFor(x => x.Quantity).GreaterThan(0).OnAnyFailure(request => throw new InvalidBasketItemModelException($"{nameof(request.Quantity)} paramater must be greater than zero."));

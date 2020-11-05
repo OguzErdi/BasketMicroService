@@ -58,7 +58,7 @@ namespace Basket.API
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IStockProvider, FakeStockProvider>();
-            services.AddTransient<IValidator<BasketItemModel>, BasketItemValidator>();
+            services.AddTransient<IValidator<BasketItemModel>, BasketItemModelValidator>();
 
             services.AddAutoMapper(typeof(Startup));
 

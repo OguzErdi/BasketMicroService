@@ -27,7 +27,7 @@ namespace Basket.Application.UnitTests.Services
             _mockBasketRepository = new Mock<IBasketRepository>();
             _mockStockProvider = new Mock<IStockProvider>();
             //to test real validator
-            _validator = new BasketItemValidator();
+            _validator = new BasketItemModelValidator();
         }
 
         [Theory]
