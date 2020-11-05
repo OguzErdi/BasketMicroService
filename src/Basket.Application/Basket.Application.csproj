@@ -5,17 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Exceptions\**" />
-    <EmbeddedResource Remove="Exceptions\**" />
-    <None Remove="Exceptions\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Mapper\ObjectMapper.cs~RF9e71b1f.TMP" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
   </ItemGroup>
 
   <ItemGroup>

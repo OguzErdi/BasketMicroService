@@ -21,6 +21,10 @@ namespace Basket.Infrastructure.Repositories
         public async Task<bool> AddItemToBasket(BasketItem basketItem)
         {
             var basketItemList = await GetBasketItemListAsync(basketItem.UserName);
+            if (basketItemList == null)
+            {
+                basketItemList = new List<BasketItem>();
+            }
             basketItemList.Add(basketItem);
 
             string jsonBasketIteList = JsonConvert.SerializeObject(basketItemList);

@@ -23,6 +23,7 @@ using FluentValidation.AspNetCore;
 using Basket.Core.Entites;
 using Basket.Core.Providers;
 using Basket.Infrastructure.Providers;
+using static Basket.Application.Models.BasketItemModel;
 
 namespace Basket.API
 {

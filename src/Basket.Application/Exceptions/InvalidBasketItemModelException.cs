@@ -4,14 +4,14 @@ using System.Text;
 
 namespace Basket.Application.Exceptions
 {
-    public class InvalidBasketItemException : Exception
+    public class InvalidBasketItemModelException : Exception
     {
-        internal InvalidBasketItemException(string businessMessage)
+        internal InvalidBasketItemModelException(string businessMessage)
             : base(businessMessage)
         {
         }
 
-        internal InvalidBasketItemException(string message, Exception innerException)
+        internal InvalidBasketItemModelException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
